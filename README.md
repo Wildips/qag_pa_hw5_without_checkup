@@ -18,3 +18,6 @@ https://sqlmodel.tiangolo.com/
 https://hub.docker.com/_/python <br>
 https://fastapi.tiangolo.com/deployment/docker/
 <br>==========================================</br>
+
+For the run should be executed:
+

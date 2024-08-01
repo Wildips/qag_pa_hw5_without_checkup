@@ -15,10 +15,9 @@ def test_users(app_url):
         User.model_validate(user)
 
 
-@pytest.mark.xfail
 @pytest.mark.usefixtures("fill_test_data")
 def test_users_no_duplicates(users):
-    users_ids = [int(user["id"]) for user in users]
+    users_ids = [int(user["id"]) for user in users["items"]]
     assert len(users_ids) == len(set(users_ids))
 
 

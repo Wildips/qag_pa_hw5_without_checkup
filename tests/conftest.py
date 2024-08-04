@@ -6,12 +6,11 @@ from pathlib import Path
 import dotenv
 import pytest
 import requests
-
-from faker import Faker
+import faker
 
 from app.models.User import User
 
-fake = Faker()
+fake = faker.Faker()
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -24,7 +23,7 @@ def app_url():
     return f"http://{os.getenv("APP_URL")}:{os.getenv("APP_PORT")}"
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def fill_test_data(app_url):
     with open(Path(__file__).parent.parent.joinpath("users.json").absolute()) as f:
         test_data_users = json.load(f)
@@ -49,24 +48,24 @@ def users(app_url):
 
 
 @pytest.fixture()
-def user():
-    return User(email=fake.ascii_free_email(), first_name=fake.first_name_female(), last_name=fake.last_name_female(),
+def random_user_data() -> User:
+    user = User(email=fake.ascii_free_email(), first_name=fake.first_name_female(), last_name=fake.last_name_female(),
                 avatar=fake.uri())
+    return user
 
 
 @pytest.fixture()
-def create_user(user, app_url):
-    body = {"email": user.email, "first_name": user.first_name, "last_name": user.last_name, "avatar": user.avatar}
-    response = requests.post(f"{app_url}/api/users/", json=body)
+def random_test_user(random_user_data: User, app_url) -> User:
+    response = requests.post(f"{app_url}/api/users/", json=random_user_data.model_dump())
     assert response.status_code == HTTPStatus.CREATED
-    yield response.json()["id"]
+    yield User(**response.json())
 
 
 @pytest.fixture()
-def create_delete_user(user, app_url):
-    body = {"email": user.email, "first_name": user.first_name, "last_name": user.last_name, "avatar": user.avatar}
-    response = requests.post(f"{app_url}/api/users/", json=body)
+def create_delete_user(random_user_data: User, app_url) -> User:
+    response = requests.post(f"{app_url}/api/users/", json=random_user_data.model_dump())
     assert response.status_code == HTTPStatus.CREATED
-    yield response.json()
+    random_user_data = User(**response.json())
+    yield random_user_data
     response = requests.delete(f"{app_url}/api/users/{response.json()["id"]}")
     assert response.status_code == HTTPStatus.OK

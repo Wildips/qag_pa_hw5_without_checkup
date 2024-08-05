@@ -1,7 +1,7 @@
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   tests:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Surface failing tests
         if: always()
-        uses: pmeier/pytest-results-action@main
+        uses: pmeier/pytest-results-action@master
         with:
           path: test-results.xml
           summary: true

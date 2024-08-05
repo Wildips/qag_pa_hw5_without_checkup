@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from typing import Any, Coroutine
 
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import paginate, Page
@@ -29,7 +28,8 @@ async def get_users() -> Page[User]:
 
 
 @router.post("/", status_code=HTTPStatus.CREATED)
-async def create_user(user: User) -> Coroutine[Any, Any, User]:
+# async def create_user(user: User) -> Coroutine[Any, Any, User]:
+async def create_user(user: User) -> User:
     UserCreate.model_validate(user.model_dump())
     return users.create_user(user)
 

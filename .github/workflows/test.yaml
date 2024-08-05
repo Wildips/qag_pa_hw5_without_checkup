@@ -37,3 +37,4 @@ jobs:
           display-options: fEX
           fail-on-empty: true
           title: Test results
+

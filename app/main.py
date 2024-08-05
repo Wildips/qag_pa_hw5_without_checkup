@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from app.routers import status, users
 from app.database.engine import create_db_and_tables, clean_up_and_tables
 
-app = FastAPI(debug=True, host=os.getenv("APP_URL"), port=int(os.getenv("APP_PORT")))
+app = FastAPI(debug=True)
 app.include_router(status.router)
 app.include_router(users.router)
 add_pagination(app)

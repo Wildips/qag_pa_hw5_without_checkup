@@ -30,7 +30,7 @@ jobs:
 
       - name: Surface failing tests
         if: always()
-        uses: pmeier/pytest-results-action@master
+        uses: pmeier/pytest-results-action@main
         with:
           path: test-results.xml
           summary: true

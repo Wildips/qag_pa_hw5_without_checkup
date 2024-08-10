@@ -29,5 +29,4 @@ app.include_router(users.router)
 add_pagination(app)
 
 if __name__ == "__main__":
-    # uvicorn.run(app, host=os.getenv("APP_URL"), port=int(os.getenv("APP_PORT")))
-    uvicorn.run(app, host="localhost", port=int(os.getenv("APP_PORT")))
+    uvicorn.run(app, host=os.getenv("APP_URL"), port=int(os.getenv("APP_PORT")))

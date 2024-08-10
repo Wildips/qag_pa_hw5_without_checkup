@@ -15,7 +15,7 @@ disable_installed_extensions_check()
 router = APIRouter(prefix="/api/users")
 
 
-@router.get("/{user_id}", status_code=HTTPStatus.OK)
+# @router.get("/{user_id}", status_code=HTTPStatus.OK)
 def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
@@ -26,14 +26,14 @@ def get_user(user_id: int) -> Type[User]:
     return user
 
 
-@router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
+# @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
 async def get_users() -> Page[User]:
     with Session(engine) as session:
         statement = select(User)
         return paginate(session.exec(statement).all())
 
 
-@router.post("/", status_code=HTTPStatus.CREATED)
+# @router.post("/", status_code=HTTPStatus.CREATED)
 async def create_user(user: User) -> User:
     with Session(engine) as session:
         session.add(user)
@@ -42,7 +42,7 @@ async def create_user(user: User) -> User:
         return user
 
 
-@router.patch("/{user_id}", status_code=HTTPStatus.OK)
+# @router.patch("/{user_id}", status_code=HTTPStatus.OK)
 def update_user(user_id: int, user: User) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
@@ -58,7 +58,7 @@ def update_user(user_id: int, user: User) -> Type[User]:
         return db_user
 
 
-@router.delete("/{user_id}", status_code=HTTPStatus.OK)
+# @router.delete("/{user_id}", status_code=HTTPStatus.OK)
 def delete_user(user_id: int):
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")

@@ -1,11 +1,10 @@
-import logging
-
 import dotenv
 
 dotenv.load_dotenv()
 
 import os
 import uvicorn
+import logging
 
 from fastapi_pagination import add_pagination
 from fastapi import FastAPI

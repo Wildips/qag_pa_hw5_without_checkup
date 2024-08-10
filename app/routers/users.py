@@ -29,7 +29,7 @@ async def get_users() -> Page[User]:
 
 
 @router.post("/", status_code=HTTPStatus.CREATED, response_model=None)
-async def create_user(user: User):
+async def create_user(user: User) -> Type[User]:
 # async def create_user(user: User) -> Coroutine[Any, Any, User]:
     UserCreate.model_validate(user.model_dump())
     return users.create_user(user)

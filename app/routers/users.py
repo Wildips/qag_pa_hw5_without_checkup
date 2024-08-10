@@ -25,14 +25,14 @@ def get_user(user_id: int) -> Type[User]:
 
 @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
 async def get_users() -> Page[User]:
-    return paginate(users.get_users())
+    return await paginate(users.get_users())
 
 
 @router.post("/", status_code=HTTPStatus.CREATED, response_model=None)
-async def create_user(user: User) -> Type[User]:
-# async def create_user(user: User) -> Coroutine[Any, Any, User]:
+# async def create_user(user: User) -> Type[User]:
+async def create_user(user: User) -> Coroutine[Any, Any, User]:
     UserCreate.model_validate(user.model_dump())
-    return users.create_user(user)
+    return await users.create_user(user)
 
 
 @router.patch("/{user_id}", status_code=HTTPStatus.OK)

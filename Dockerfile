@@ -12,4 +12,4 @@ COPY ./app /code/app
 
 # If running behind a proxy like Nginx or Traefik add --proxy-headers
 # CMD ["fastapi", "run", "app/main.py", "--port", "80", "--proxy-headers"]
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002"]

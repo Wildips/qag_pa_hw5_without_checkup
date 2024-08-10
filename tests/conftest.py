@@ -29,6 +29,7 @@ def fill_test_data(app_url):
         test_data_users = json.load(f)
     api_users = []
     for user in test_data_users:
+        print(user)
         response = requests.post(f"{app_url}/api/users/", json=user)
         api_users.append(response.json())
 

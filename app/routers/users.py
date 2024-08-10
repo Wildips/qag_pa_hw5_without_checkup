@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Type, Any, Coroutine
 
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import paginate, Page
@@ -13,7 +14,7 @@ router = APIRouter(prefix="/api/users")
 
 
 @router.get("/{user_id}", status_code=HTTPStatus.OK)
-def get_user(user_id: int) -> User:
+def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     user = users.get_user(user_id)
@@ -28,13 +29,13 @@ async def get_users() -> Page[User]:
 
 
 @router.post("/", status_code=HTTPStatus.CREATED)
-async def create_user(user: User) -> User:
+async def create_user(user: User) -> Coroutine[Any, Any, User]:
     UserCreate.model_validate(user.model_dump())
     return users.create_user(user)
 
 
 @router.patch("/{user_id}", status_code=HTTPStatus.OK)
-def update_user(user_id: int, user: User) -> User:
+def update_user(user_id: int, user: User) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     UserUpdate.model_validate(user.model_dump())

@@ -16,36 +16,38 @@ router = APIRouter(prefix="/api/users")
 
 
 # @router.get("/{user_id}", status_code=HTTPStatus.OK)
-def get_user(user_id: int) -> Type[User]:
+# def get_user(user_id: int) -> Type[User]:
+async def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
         user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
-    return user
+    return await user
 
 
 # @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
-# async def get_users() -> Page[User]:
-def get_users() -> Page[User]:
+async def get_users() -> Page[User]:
+# def get_users() -> Page[User]:
     with Session(engine) as session:
         statement = select(User)
-        return paginate(session.exec(statement).all())
+        return await paginate(session.exec(statement).all())
 
 
 # @router.post("/", status_code=HTTPStatus.CREATED)
-# async def create_user(user: User) -> User:
-def create_user(user: User) -> User:
+async def create_user(user: User) -> User:
+# def create_user(user: User) -> User:
     with Session(engine) as session:
         session.add(user)
         session.commit()
         session.refresh(user)
-        return user
+        return await user
 
 
 # @router.patch("/{user_id}", status_code=HTTPStatus.OK)
-def update_user(user_id: int, user: User) -> Type[User]:
+# def update_user(user_id: int, user: User) -> Type[User]:
+async def update_user(user_id: int, user: User) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
@@ -57,11 +59,12 @@ def update_user(user_id: int, user: User) -> Type[User]:
         session.add(db_user)
         session.commit()
         session.refresh(db_user)
-        return db_user
+        return await db_user
 
 
 # @router.delete("/{user_id}", status_code=HTTPStatus.OK)
-def delete_user(user_id: int):
+# def delete_user(user_id: int):
+async def delete_user(user_id: int):
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
@@ -70,4 +73,4 @@ def delete_user(user_id: int):
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
         session.delete(user)
         session.commit()
-    return {"message": "User deleted"}
+    return await {"message": "User deleted"}

@@ -14,8 +14,8 @@ def clean_up_and_tables():
     SQLModel.metadata.drop_all(engine)
 
 
-# def check_availability() -> bool:
-async def check_availability() -> bool:
+def check_availability() -> bool:
+# async def check_availability() -> bool:
     try:
         with Session(engine) as session:
             session.execute(text("SELECT 1"))

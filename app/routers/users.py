@@ -15,7 +15,8 @@ router = APIRouter(prefix="/api/users")
 
 @router.get("/{user_id}", status_code=HTTPStatus.OK)
 # def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
-def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
+# def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
+def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     user = users.get_user(user_id)
@@ -24,18 +25,20 @@ def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
     return user
 
 
-@router.get("/", status_code=HTTPStatus.OK, response_model=None)#response_model=Page[User])
+# @router.get("/", status_code=HTTPStatus.OK, response_model=None)#response_model=Page[User])
+@router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
 # async def get_users() -> Page[User]:
-# def get_users() -> Page[User]:
-def get_users() -> Coroutine[Any, Any, Type[User]]:
+def get_users() -> Page[User]:
+# def get_users() -> Coroutine[Any, Any, Type[User]]:
     # return await paginate(users.get_users())
     return paginate(users.get_users())
 
 
 @router.post("/", status_code=HTTPStatus.CREATED, response_model=None)
 # async def create_user(user: User) -> Type[User]:
+def create_user(user: User) -> Type[User]:
 # async def create_user(user: User) -> Coroutine[Any, Any, User]:
-def create_user(user: User) -> Coroutine[Any, Any, User]:
+# def create_user(user: User) -> Coroutine[Any, Any, User]:
     UserCreate.model_validate(user.model_dump())
     # return await users.create_user(user)
     return users.create_user(user)

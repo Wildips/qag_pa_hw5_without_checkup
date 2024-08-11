@@ -27,14 +27,16 @@ def get_user(user_id: int) -> Type[User]:
 
 
 # @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
-async def get_users() -> Page[User]:
+# async def get_users() -> Page[User]:
+def get_users() -> Page[User]:
     with Session(engine) as session:
         statement = select(User)
         return paginate(session.exec(statement).all())
 
 
 # @router.post("/", status_code=HTTPStatus.CREATED)
-async def create_user(user: User) -> User:
+# async def create_user(user: User) -> User:
+def create_user(user: User) -> User:
     with Session(engine) as session:
         session.add(user)
         session.commit()

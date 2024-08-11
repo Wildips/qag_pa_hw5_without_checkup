@@ -1,8 +1,8 @@
 from http import HTTPStatus
-from typing import Type, Any, Coroutine
+from typing import Type
 
 from fastapi import APIRouter, HTTPException
-from fastapi_pagination import paginate, Page
+from fastapi_pagination import Page
 from fastapi_pagination.utils import disable_installed_extensions_check
 
 from app.database import users
@@ -13,10 +13,7 @@ disable_installed_extensions_check()
 router = APIRouter(prefix="/api/users")
 
 
-# @router.get("/{user_id}", status_code=HTTPStatus.OK)
 @router.get("/{user_id}", status_code=HTTPStatus.OK, response_model=Type[User])
-# def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
-# def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
 def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
@@ -26,23 +23,14 @@ def get_user(user_id: int) -> Type[User]:
     return user
 
 
-# @router.get("/", status_code=HTTPStatus.OK, response_model=None)#response_model=Page[User])
 @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
-# @router.get("/", status_code=HTTPStatus.OK, response_model=None)
-# async def get_users() -> Page[User]:
 def get_users() -> Page[User]:
-# def get_users() -> Coroutine[Any, Any, Type[User]]:
-    # return await paginate(users.get_users())
     return users.get_users()
 
 
 @router.post("/", status_code=HTTPStatus.CREATED, response_model=None)
-# async def create_user(user: User) -> Type[User]:
 def create_user(user: User) -> Type[User]:
-# async def create_user(user: User) -> Coroutine[Any, Any, User]:
-# def create_user(user: User) -> Coroutine[Any, Any, User]:
     UserCreate.model_validate(user.model_dump())
-    # return await users.create_user(user)
     return users.create_user(user)
 
 

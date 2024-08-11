@@ -6,8 +6,7 @@ from fastapi_pagination import paginate, Page
 from fastapi_pagination.utils import disable_installed_extensions_check
 from sqlmodel import Session, select
 
-from app.database import users
-from app.models.User import User, UserCreate, UserUpdate
+from app.models.User import User
 from app.database.engine import engine
 
 disable_installed_extensions_check()
@@ -15,30 +14,23 @@ disable_installed_extensions_check()
 router = APIRouter(prefix="/api/users")
 
 
-# @router.get("/{user_id}", status_code=HTTPStatus.OK)
-async def get_user(user_id: int) -> Type[User]:
-# async def get_user(user_id: int) -> Type[User]:
+def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
         user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
-    return await user
-    # return user
+
+    return user
 
 
-# @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
-# async def get_users() -> Page[User]:
 def get_users() -> Page[User]:
     with Session(engine) as session:
         statement = select(User)
-        # return await paginate(session.exec(statement).all())
         return paginate(session.exec(statement).all())
 
 
-# @router.post("/", status_code=HTTPStatus.CREATED)
-# async def create_user(user: User) -> User:
 def create_user(user: User) -> User:
     with Session(engine) as session:
         session.add(user)
@@ -47,9 +39,7 @@ def create_user(user: User) -> User:
         return user
 
 
-# @router.patch("/{user_id}", status_code=HTTPStatus.OK)
 def update_user(user_id: int, user: User) -> Type[User]:
-# async def update_user(user_id: int, user: User) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
@@ -61,13 +51,10 @@ def update_user(user_id: int, user: User) -> Type[User]:
         session.add(db_user)
         session.commit()
         session.refresh(db_user)
-        # return await db_user
         return db_user
 
 
-# @router.delete("/{user_id}", status_code=HTTPStatus.OK)
 def delete_user(user_id: int):
-# async def delete_user(user_id: int):
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
@@ -76,5 +63,4 @@ def delete_user(user_id: int):
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
         session.delete(user)
         session.commit()
-    # return await {"message": "User deleted"}
     return {"message": "User deleted"}

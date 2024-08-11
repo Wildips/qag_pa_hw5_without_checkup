@@ -15,7 +15,6 @@ def clean_up_and_tables():
 
 
 def check_availability() -> bool:
-# async def check_availability() -> bool:
     try:
         with Session(engine) as session:
             session.execute(text("SELECT 1"))

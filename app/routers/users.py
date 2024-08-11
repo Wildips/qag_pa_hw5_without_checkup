@@ -26,8 +26,8 @@ def get_users() -> Page[list[User]]:
     return users.get_users()
 
 
-@router.post("/", status_code=HTTPStatus.CREATED, response_model=None)
-def create_user(user: User) -> Type[User]:
+@router.post("/", status_code=HTTPStatus.CREATED, response_model=Type[User])
+def create_user(user: User) -> User:
     UserCreate.model_validate(user.model_dump())
     return users.create_user(user)
 

@@ -15,8 +15,6 @@ router = APIRouter(prefix="/api/users")
 
 
 def get_user(user_id: int) -> Type[User]:
-    if user_id < 1:
-        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
         user = session.get(User, user_id)
     if not user:
@@ -39,8 +37,6 @@ def create_user(user: User) -> User:
 
 
 def update_user(user_id: int, user: User) -> Type[User]:
-    if user_id < 1:
-        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
         db_user = session.get(User, user_id)
         if not db_user:
@@ -54,8 +50,6 @@ def update_user(user_id: int, user: User) -> Type[User]:
 
 
 def delete_user(user_id: int):
-    if user_id < 1:
-        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
         user = session.get(User, user_id)
         if not user:

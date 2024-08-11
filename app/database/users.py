@@ -28,7 +28,7 @@ def get_users() -> Page[list[User]]:
         return paginate(session.exec(statement).all())
 
 
-def create_user(user: User) -> Type[User]:
+def create_user(user: User) -> User:
     with Session(engine) as session:
         session.add(user)
         session.commit()

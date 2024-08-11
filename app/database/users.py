@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/users")
 
 
 # @router.get("/{user_id}", status_code=HTTPStatus.OK)
-def get_user(user_id: int) -> Type[User]:
+async def get_user(user_id: int) -> Type[User]:
 # async def get_user(user_id: int) -> Type[User]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
@@ -24,8 +24,8 @@ def get_user(user_id: int) -> Type[User]:
         user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
-    # return await user
-    return user
+    return await user
+    # return user
 
 
 # @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])

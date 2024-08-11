@@ -14,7 +14,7 @@ router = APIRouter(prefix="/api/users")
 
 
 @router.get("/{user_id}", status_code=HTTPStatus.OK)
-def get_user(user_id: int) -> Type[User]:
+def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     user = users.get_user(user_id)

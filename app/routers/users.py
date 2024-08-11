@@ -13,7 +13,8 @@ disable_installed_extensions_check()
 router = APIRouter(prefix="/api/users")
 
 
-@router.get("/{user_id}", status_code=HTTPStatus.OK)
+# @router.get("/{user_id}", status_code=HTTPStatus.OK)
+@router.get("/{user_id}", status_code=HTTPStatus.OK, response_model=Type[User])
 # def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
 # def get_user(user_id: int) -> Coroutine[Any, Any, Type[User]]:
 def get_user(user_id: int) -> Type[User]:

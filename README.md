@@ -19,5 +19,17 @@ https://hub.docker.com/_/python <br>
 https://fastapi.tiangolo.com/deployment/docker/
 <br>==========================================</br>
 
-For the run should be executed:
+About actions:</br>
+repo</br>
+https://github.com/qa-guru/qa_guru_python_advanced_1_2/pull/3
 
+Useful links  <br>
+https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#pull_request <br>
+https://medium.com/@yanminthwin/understanding-github-flow-and-git-flow-957bc6e12220
+
+Actions: <br>
+
+ https://github.com/actions/setup-python <br>
+ https://github.com/actions/checkout <br>
+ https://github.com/pmeier/pytest-results-action <br>
+ https://github.com/marketplace/actions/pytest-results-actions <br>

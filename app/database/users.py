@@ -19,10 +19,9 @@ def get_user(user_id: int) -> Type[User]:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     with Session(engine) as session:
         user = session.get(User, user_id)
-    if not user:
-        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
-
-    return user
+        if not user:
+            raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
+        return user
 
 
 def get_users() -> Page[User]:

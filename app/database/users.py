@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Type, Coroutine, Any
+from typing import Type
 
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import paginate, Page
@@ -28,8 +28,7 @@ async def get_user(user_id: int) -> Type[User]:
 
 
 # @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
-# async def get_users() -> Page[User]:
-async def get_users() -> Coroutine[Any, Any, Page[User]]:
+async def get_users() -> Page[User]:
 # def get_users() -> Page[User]:
     with Session(engine) as session:
         statement = select(User)

@@ -22,7 +22,7 @@ def get_user(user_id: int) -> Type[User]:
 
 
 @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
-def get_users() -> Page[User]:
+def get_users() -> Page[list[User]]:
     return users.get_users()
 
 

@@ -22,13 +22,13 @@ def get_user(user_id: int) -> Type[User]:
     return user
 
 
-def get_users() -> Page[User]:
+def get_users() -> Page[list[User]]:
     with Session(engine) as session:
         statement = select(User)
         return paginate(session.exec(statement).all())
 
 
-def create_user(user: User) -> User:
+def create_user(user: User) -> Type[User]:
     with Session(engine) as session:
         session.add(user)
         session.commit()

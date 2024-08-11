@@ -13,8 +13,8 @@ disable_installed_extensions_check()
 router = APIRouter(prefix="/api/users")
 
 
-@router.get("/{user_id}", status_code=HTTPStatus.OK, response_model=Type[User])
-def get_user(user_id: int) -> Type[User]:
+@router.get("/{user_id}", status_code=HTTPStatus.OK, response_model=User, response_model_exclude_unset=True)
+def get_user(user_id: int):
     if user_id < 1:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     user = users.get_user(user_id)

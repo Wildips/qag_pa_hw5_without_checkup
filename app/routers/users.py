@@ -27,11 +27,12 @@ def get_user(user_id: int) -> Type[User]:
 
 # @router.get("/", status_code=HTTPStatus.OK, response_model=None)#response_model=Page[User])
 @router.get("/", status_code=HTTPStatus.OK, response_model=Page[User])
+# @router.get("/", status_code=HTTPStatus.OK, response_model=None)
 # async def get_users() -> Page[User]:
 def get_users() -> Page[User]:
 # def get_users() -> Coroutine[Any, Any, Type[User]]:
     # return await paginate(users.get_users())
-    return paginate(users.get_users())
+    return users.get_users()
 
 
 @router.post("/", status_code=HTTPStatus.CREATED, response_model=None)
